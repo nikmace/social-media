@@ -20,8 +20,8 @@ function PostForm() {
             proxy.writeQuery({ query: FETCH_POSTS_QUERY, data: {getPosts: [result.data.createPost, ...data.getPosts] } });
             values.body = '';
         },
-        onError(err){
-            return err;
+        onError(error){
+            return error;
         }
     });
     
@@ -30,15 +30,24 @@ function PostForm() {
     }
 
     return (
+        <>
         <Form onSubmit={onSubmit} >
             <h2>Create a new post:</h2>
             <Form.Field>
-                <Form.Input placeholder="Say something" name="body" onChange={onChange} value={values.body} />
+                <Form.Input placeholder="Say something" name="body" onChange={onChange} value={values.body} error={error ? true : false}/>
                 <Button type="submit" color="teal" >
                     Submit
                 </Button>
             </Form.Field>
         </Form>
+        {error && (
+            <div className="ui error message" style={{marginBottom: '20px'}}>
+                <ul>
+                    <li>{error.graphQLErrors[0].message}</li>
+                </ul>
+            </div>
+        )}
+        </>
     )
 }
 
