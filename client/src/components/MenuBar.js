@@ -2,8 +2,10 @@ import React, { useState, useContext } from 'react';
 import { Link } from 'react-router-dom';
 import { Menu } from 'semantic-ui-react';
 
+import { AuthContext } from '../context/auth';
+
 function MenuBar() {
-    const { user, logout } = {}
+    const { user, logout } = React.useContext(AuthContext);
     const pathname = window.location.pathname;
   
     const path = pathname === '/' ? 'home' : pathname.substr(1);

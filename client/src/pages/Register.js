@@ -4,8 +4,11 @@ import { useMutation } from '@apollo/client';
 import gql from 'graphql-tag';
 
 import { useForm } from '../util/hooks';
+import { AuthContext } from '../context/auth';
+
 
 function Register(props) {
+    const context = React.useContext(AuthContext);
     const [errors, setErrors] = React.useState({});
 
     const { onChange, onSubmit, values } = useForm(registerUser, {
@@ -17,6 +20,7 @@ function Register(props) {
 
     const [addUser, { loading }] = useMutation(REGISTER_USER, {
         update(_, result){
+            context.login(result.data.register);
             props.history.push('/');
         },
         onError(err){
